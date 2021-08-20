@@ -141,6 +141,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EnumerateAudioDevices.cpp" />
+    <ClCompile Include="IMMDevice.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IMMDevice.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
