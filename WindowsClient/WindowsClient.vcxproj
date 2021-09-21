@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{86a39935-c4fe-46db-b987-1fb59ee41854}</ProjectGuid>
-    <RootNamespace>ConsoleApplication1</RootNamespace>
+    <ProjectGuid>{f9a38d91-8e52-4a80-bc5a-8e13c5178f4a}</ProjectGuid>
+    <RootNamespace>WindowsClient</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>AMAC</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -140,11 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EnumerateAudioDevices.cpp" />
-    <ClCompile Include="IMMDevice.cpp" />
+    <ClCompile Include="src\EnumerateAudioDevices.cpp" />
+    <ClCompile Include="src\IMMDevice.cpp" />
+    <ClCompile Include="src\IMMUtility.cpp" />
+    <ClCompile Include="src\SessionsControl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IMMDevice.h" />
+    <ClInclude Include="src\IMMDevice.h" />
+    <ClInclude Include="src\IMMUtility.h" />
+    <ClInclude Include="src\SessionsControl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
