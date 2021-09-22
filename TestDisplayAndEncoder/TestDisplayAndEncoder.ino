@@ -1,22 +1,25 @@
+#include "BackgroundDraw.h"
+#include "Display_SSD1331.h"
+#include <Arduino_GFX_Library.h>
 #include <SPI.h>
 #include <math.h>
-#include <Arduino_GFX_Library.h>
 
 //Encoder connection pin-out
-#define CLK 3
-#define DT 4
-#define SW 2
+#define encoder1_clk 3
+#define encoder1_dt 4
+#define encoder1_sw 2
 
 //Display connection pin-out
-#define sclk 13
-#define mosi 11
-#define cs 10
-#define rst 9
-#define dc 8
+#define screen1_dc 8
+#define screen1_cs 10
+#define screen1_sclk 13
+#define screen1_mosi 11
+#define screen1_rst 9
+
 
 #define BLACK 0x0000
 #define GREEN 0x07E0
-#define WHITE 0xFFFF
+#define WHITE 0xFFFF  
 #define ERASE_COLOR 0x0000
 
 #define LANDSCAPE 0
@@ -28,8 +31,9 @@
 //Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, mosi, sclk, rst);
 
 //Arduino_GFX display driver
-Arduino_DataBus* bus = new Arduino_SWSPI(dc, cs, sclk, mosi, -1 /* MISO */);
-Arduino_GFX* gfx = new Arduino_SSD1331(bus, rst, PORTRAIT);
+Display_SSD1331 display1_props = Display_SSD1331(screen1_dc, screen1_cs, screen1_sclk, screen1_mosi, screen1_rst);
+
+BackgroundDraw bg_draw = BackgroundDraw(&display1_props, GREEN);
 
 //Screen orientation properties
 int screen_res_h = 64;
@@ -100,37 +104,9 @@ int CalculateIconBoundaryAtY(int draw_height) {
     return icon_center_x - 1 - round(sqrt(icon_radius * icon_radius - delta_y * delta_y));
 }
 
-int FillRowAndAvoidIcon(int draw_height, int color) {
-    if (draw_height > (icon_center_y - icon_radius) && draw_height < (icon_center_y + icon_radius)) {
-        int icon_boundary = CalculateIconBoundaryAtY(draw_height);
-        gfx->writeFastHLine(1, draw_height, icon_boundary, color);
-        gfx->writeFastHLine(screen_res_h - icon_boundary - 1, draw_height, icon_boundary + 1, color);
-    }
-    else {
-        gfx->writeFastHLine(1, draw_height, screen_res_h, color);
-    }
-}
-
-void FastDrawCounter(int updated_counter, int prev_counter) {
-    gfx->startWrite();
-    int start_draw_height = screen_res_v - prev_counter * screen_res_v / 100; //scale to screen size and invert animation relative to Y axis (bottom to top)
-    if (updated_counter > prev_counter) {
-        for (int i = 0; i < updated_counter - prev_counter + 1; i++) {
-            FillRowAndAvoidIcon(start_draw_height - i + 1, GREEN);
-        }
-    }
-    else {
-        for (int i = 0; i < prev_counter - updated_counter + 1; i++) {
-            FillRowAndAvoidIcon(start_draw_height + i - 1, ERASE_COLOR);
-        }
-    }
-    DrawCounterText(updated_counter, GREEN);
-    gfx->endWrite();
-}
-
 int UpdateEncoderValue(int counter) {
-    currentStateCLK = digitalRead(CLK);
-    currentStateDT = digitalRead(DT);
+    currentStateCLK = digitalRead(encoder1_clk);
+    currentStateDT = digitalRead(encoder1_dt);
     //Check for change and act only on rising edge of input (CLK_HIGH), to prevent double triggering
     if (currentStateCLK != lastStateCLK && currentStateCLK == 1) {
         //If DT and CLK do not match on rising edge of CLK, when encoder in turning clockwize
@@ -152,12 +128,12 @@ int UpdateEncoderValue(int counter) {
 }
 
 void setup() {
-    pinMode(CLK, INPUT_PULLUP);
-    pinMode(DT, INPUT_PULLUP);
-    pinMode(SW, INPUT_PULLUP);
+    pinMode(encoder1_clk, INPUT_PULLUP);
+    pinMode(encoder1_dt, INPUT_PULLUP);
+    pinMode(encoder1_sw, INPUT_PULLUP);
 
     Serial.begin(9600);
-    lastStateCLK = digitalRead(CLK);
+    lastStateCLK = digitalRead(encoder1_clk);
 
     gfx->begin();
     gfx->fillScreen(BLACK);
@@ -173,7 +149,7 @@ void loop() {
         encoder_counter = updated_counter;
     }
 
-    int btnState = digitalRead(SW);
+    int btnState = digitalRead(encoder1_sw);
     if (btnState == LOW) {
         if (millis() - lastButtonPress > 50) {
             Serial.println("Button pressed!");
