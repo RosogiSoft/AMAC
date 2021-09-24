@@ -1,5 +1,4 @@
 // BackgroundDraw.h
-
 #ifndef _BACKGROUNDDRAW_h
 #define _BACKGROUNDDRAW_h
 
@@ -8,7 +7,8 @@
 #else
 	#include "WProgram.h"
 #endif
-#include <src/Display_SSD1331.h>
+
+#include "Display_SSD1331.h"
 
 class BackgroundDraw{
 public:
@@ -23,7 +23,7 @@ private:
 	int color;
 	int volume;
 	
-	void FillRowAndAvoidIcon(int draw_height, int color);
+	//void FillRowAndAvoidIcon(int draw_height, int color);
 };
 
 #endif

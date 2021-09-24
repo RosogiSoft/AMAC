@@ -18,25 +18,34 @@
     <ClCompile Include="src\EnumerateAudioDevices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\IMMDevice.cpp">
+    <ClCompile Include="src\WinAPI\IMMDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\IMMUtility.cpp">
+    <ClCompile Include="src\WinAPI\IMMUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SessionsControl.cpp">
+    <ClCompile Include="src\WinAPI\SessionsControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\simple-serial-port\SimpleSerial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\IMMDevice.h">
+    <ClInclude Include="src\WinAPI\IMMDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\IMMUtility.h">
+    <ClInclude Include="src\WinAPI\IMMUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SessionsControl.h">
+    <ClInclude Include="src\WinAPI\SessionsControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\simple-serial-port\SimpleSerial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\simple-serial-port\syntax_config.txt" />
   </ItemGroup>
 </Project>

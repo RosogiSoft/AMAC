@@ -107,18 +107,16 @@
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="TestDisplayAndEncoder.ino">
-      <FileType>CppCode</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BackgroundDraw.h" />
+    <ClInclude Include="src\BackgroundDraw.h" />
     <ClInclude Include="src\Display_SSD1331.h" />
     <ClInclude Include="__vm\.TestDisplayAndEncoder.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BackgroundDraw.cpp" />
+    <ClCompile Include="src\BackgroundDraw.cpp" />
     <ClCompile Include="src\Display_SSD1331.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestDisplayAndEncoder.ino" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

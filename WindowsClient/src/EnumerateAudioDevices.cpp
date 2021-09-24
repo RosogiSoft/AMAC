@@ -1,8 +1,11 @@
-#include "IMMDevice.h"
-#include "IMMUtility.h"
-#include "SessionsControl.h"
+#include "WinAPI/IMMDevice.h"
+#include "WinAPI/IMMUtility.h"
+#include "WinAPI/SessionsControl.h"
+#include "simple-serial-port/SimpleSerial.h"
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include <combaseapi.h>
 #include <map>
 #include <vector>
@@ -28,9 +31,38 @@ int main()
 	}
 	cout << "Devices: " << endl;
 	PrintFriendlyNames(devices_fnames);
-	string dID = devices.at(devices_fnames[3]);
-	SetDeviceVolScaled(dID, 1);
 
+	int i;
+	cout << "Select device to change volume of: ";
+	cin >> i;
+	string dID = devices.at(devices_fnames[i]);
+
+	char com_port[] = "\\\\.\\COM3";
+	DWORD COM_BAUD_RATE = CBR_9600;
+	SimpleSerial serial = SimpleSerial(com_port, COM_BAUD_RATE);
+	int counter = 100;
+	if (serial.connected_) {
+		cout << "Serial is connected!" << endl;
+	}
+	else {
+		cout << "Serial connection Error!" << endl;
+	}
+	string incoming;
+	while (serial.connected_) {
+		int refresh_time = 100;
+		incoming = serial.ReadSerialPort(refresh_time, "json");
+		if (incoming == "CW") {
+			if (counter < 100) counter += 5;
+		}
+		else if (incoming == "CCW") {
+			if (counter > 0) counter -= 5;
+		}
+		cout << "Recieved: " << incoming << "; counter = " << counter << endl;
+		SetDeviceVolScaled(dID, ((float) counter) /100);
+		//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+
+	/*
 	//Session simple test
 	//map<friendly_name, sessionID>
 	IMMDevice_SessionsMap sessions = GetSessionsMapBydID(dID);
@@ -40,7 +72,7 @@ int main()
 	}
 	cout << "Device #3 sessions: " << endl;
 	PrintFriendlyNames(sessions_fnames);
-
+		
 	//Select session and set_vol
 	cout << "Select session by number: ";
 	int n = 0;
@@ -50,6 +82,6 @@ int main()
 	cin >> svol;
 	string sID = sessions.at(sessions_fnames[n]);
 	SetSessionVol(dID, sID, svol);
-
+	*/
 	return 0;
 }

@@ -140,14 +140,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\EnumerateAudioDevices.cpp" />
-    <ClCompile Include="src\IMMDevice.cpp" />
-    <ClCompile Include="src\IMMUtility.cpp" />
-    <ClCompile Include="src\SessionsControl.cpp" />
+    <ClCompile Include="src\simple-serial-port\SimpleSerial.cpp" />
+    <ClCompile Include="src\WinAPI\IMMDevice.cpp" />
+    <ClCompile Include="src\WinAPI\IMMUtility.cpp" />
+    <ClCompile Include="src\WinAPI\SessionsControl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\IMMDevice.h" />
-    <ClInclude Include="src\IMMUtility.h" />
-    <ClInclude Include="src\SessionsControl.h" />
+    <ClInclude Include="src\simple-serial-port\SimpleSerial.h" />
+    <ClInclude Include="src\WinAPI\IMMDevice.h" />
+    <ClInclude Include="src\WinAPI\IMMUtility.h" />
+    <ClInclude Include="src\WinAPI\SessionsControl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\simple-serial-port\syntax_config.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

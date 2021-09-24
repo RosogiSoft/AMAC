@@ -15,16 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestDisplayAndEncoder.ino" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="__vm\.TestDisplayAndEncoder.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Display_SSD1331.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BackgroundDraw.h">
+    <ClInclude Include="src\BackgroundDraw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,8 +29,11 @@
     <ClCompile Include="src\Display_SSD1331.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BackgroundDraw.cpp">
+    <ClCompile Include="src\BackgroundDraw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestDisplayAndEncoder.ino" />
   </ItemGroup>
 </Project>

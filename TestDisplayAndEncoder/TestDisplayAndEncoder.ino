@@ -1,6 +1,6 @@
-#include "BackgroundDraw.h"
-#include "Display_SSD1331.h"
-#include <Arduino_GFX_Library.h>
+//#include <Arduino_GFX_Library.h>
+//#include "src\Display_SSD1331.h"
+//#include "src\BackgroundDraw.h"
 #include <SPI.h>
 #include <math.h>
 
@@ -31,9 +31,9 @@
 //Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, mosi, sclk, rst);
 
 //Arduino_GFX display driver
-Display_SSD1331 display1_props = Display_SSD1331(screen1_dc, screen1_cs, screen1_sclk, screen1_mosi, screen1_rst);
+//Display_SSD1331 display1_props = Display_SSD1331(screen1_dc, screen1_cs, screen1_sclk, screen1_mosi, screen1_rst);
 
-BackgroundDraw bg_draw = BackgroundDraw(&display1_props, GREEN);
+//BackgroundDraw bg_draw = BackgroundDraw(&display1_props, GREEN);
 
 //Screen orientation properties
 int screen_res_h = 64;
@@ -53,7 +53,7 @@ int currentStateDT;
 String currentDir = "";
 unsigned long lastButtonPress = 0;
 
-//Arduino_GFX BLOCK
+/*
 
 //TODO: refactor for variable Text size. Currently optimized for gfx -> text_size 2
 void DrawCounterText(int counter, int color) {
@@ -77,16 +77,16 @@ void DrawCounterText(int counter, int color) {
     //Display refresh of Textbox area
     if (counter >= 25) {// if background above Textbox, use fill with USER_COLOR;
         for (int i = 0; i < 20; i++) {
-            gfx->writeFastHLine(left_edge, bottom_edge + i, 35, color);
+           gfx->writeFastHLine(left_edge, bottom_edge + i, 35, color);
         }
     }
     else { //if background is crossing Textbox, find division line than fill with USER_COLOR and ERASE_COLOR
         int draw_height = screen_res_v - counter * screen_res_v / 100; //scale to screen size and invert animation relative to Y axis (bottom to top)
         for (int i = 0; i < draw_height - bottom_edge; i++) {
-            gfx->writeFastHLine(left_edge, bottom_edge + i, 35, ERASE_COLOR);
+           gfx->writeFastHLine(left_edge, bottom_edge + i, 35, ERASE_COLOR);
         }
         for (int i = 0; i < screen_res_v - draw_height; i++) {
-            gfx->writeFastHLine(left_edge, draw_height + i + 1, 35, color);
+           gfx->writeFastHLine(left_edge, draw_height + i + 1, 35, color);
         }
     }
     gfx->print(counter);
@@ -103,7 +103,7 @@ int CalculateIconBoundaryAtY(int draw_height) {
     }
     return icon_center_x - 1 - round(sqrt(icon_radius * icon_radius - delta_y * delta_y));
 }
-
+*/
 int UpdateEncoderValue(int counter) {
     currentStateCLK = digitalRead(encoder1_clk);
     currentStateDT = digitalRead(encoder1_dt);
@@ -112,16 +112,16 @@ int UpdateEncoderValue(int counter) {
         //If DT and CLK do not match on rising edge of CLK, when encoder in turning clockwize
         if (currentStateDT != currentStateCLK) {
             if (counter < 100)  counter += step_size;
-            currentDir = "CW";
+            currentDir = "{CW}";
         }
         else {
             if (counter > 0) counter -= step_size;
-            currentDir = "CCW";
+            currentDir = "{CCW}";
         }
-        Serial.print("Direction: ");
-        Serial.print(currentDir);
-        Serial.print(" | Counter: ");
-        Serial.println(counter);
+       // Serial.print("Direction: ");
+        Serial.println(currentDir);
+       //Serial.print(" | Counter: ");
+        //Serial.println(counter);
     }
     lastStateCLK = currentStateCLK;
     return counter;
@@ -135,26 +135,26 @@ void setup() {
     Serial.begin(9600);
     lastStateCLK = digitalRead(encoder1_clk);
 
-    gfx->begin();
+   /* gfx->begin();
     gfx->fillScreen(BLACK);
     gfx->setTextSize(2);
-    gfx->setTextColor(WHITE);
+    gfx->setTextColor(WHITE);*/
 }
 
 void loop() {
 
     int updated_counter = UpdateEncoderValue(encoder_counter);
     if (updated_counter != encoder_counter) {
-        FastDrawCounter(updated_counter, encoder_counter);
+        //FastDrawCounter(updated_counter, encoder_counter);
         encoder_counter = updated_counter;
     }
-
+    /*
     int btnState = digitalRead(encoder1_sw);
     if (btnState == LOW) {
         if (millis() - lastButtonPress > 50) {
             Serial.println("Button pressed!");
             lastButtonPress = millis();
         }
-    }
+    }*/
     delay(1);
 }

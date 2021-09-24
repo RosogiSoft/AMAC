@@ -9,7 +9,7 @@
 	#include "WProgram.h"
 #endif
 
-
+#include  "Arduino_GFX_Library.h"
 
 enum ScreenOrientation {
 	Landscape,
