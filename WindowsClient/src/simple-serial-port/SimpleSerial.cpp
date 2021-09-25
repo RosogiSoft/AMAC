@@ -124,6 +124,7 @@ string SimpleSerial::ReadSerialPort(int refresh_time, string syntax_type) {
 		}
 		auto end_time = std::chrono::steady_clock::now();
 		timelaps = (end_time - start_time) / 1ms;
+		//cout << "Another cycle of wait" << endl;
 	} while (timelaps < refresh_time);
 	return complete_inc_msg;		
 }

@@ -1,5 +1,5 @@
 #include "SessionsControl.h"
-#include "IMMDevice.h"
+#include "DeviceUtility.h"
 #include "IMMUtility.h"
 
 #define EXIT_ON_ERROR(hres) if (FAILED(hres)) { goto Exit;}
@@ -8,15 +8,14 @@
 const IID IID_IAudioSessionManager = __uuidof(IAudioSessionManager);
 const IID IID_IAudioSessionManager2 = __uuidof(IAudioSessionManager2);
 
-void FillSControllersVectorByDeviceID(const std::string& dID, std::vector<IAudioSessionControl*>& session_contollers) {
-	std::map<std::string, std::string> sessions_list;
-	int sessions_count = 0;
-
+void Fill_SessionCtrlsVector_by_dID(const std::string& dID, std::vector<IAudioSessionControl*>& session_contollers) {
 	HRESULT hresult = S_OK;
 	IMMDevice* pDevice = NULL;
 	IAudioSessionManager2* pSessionMgmt2 = NULL;
 	IAudioSessionEnumerator* pSessionEnum = NULL;
 	IAudioSessionControl* pTempSessionControl = NULL;
+
+	int sessions_count = 0;
 
 	GetDeviceByID(dID, pDevice);
 
@@ -43,9 +42,9 @@ Exit:
 	SAFE_RELEASE(pDevice)
 }
 
-std::map<std::string, std::string> GetSessionsMapBydID(const std::string& dID) {
-	std::map<std::string, std::string> sessions;
-	std::pair<std::string, std::string> session_info;
+IMMDevice_SessionsMap GetSessionsMapBydID(const std::string& dID) {
+	IMMDevice_SessionsMap sessions;
+	Session_NameAndID_Pair session_info;
 	std::string temp;
 
 	HRESULT hresult = S_OK;
@@ -56,7 +55,7 @@ std::map<std::string, std::string> GetSessionsMapBydID(const std::string& dID) {
 	DWORD processID = NULL;
 
 	std::vector<IAudioSessionControl*> session_contollers;
-	FillSControllersVectorByDeviceID(dID, session_contollers);
+	Fill_SessionCtrlsVector_by_dID(dID, session_contollers);
 
 	for (size_t i = 0; i < session_contollers.size(); i++) {
 		pSController_type1 = session_contollers[i];
@@ -97,7 +96,7 @@ void SetSessionVol(const std::string& dID, const std::string& sID, float vol) {
 	IAudioSessionControl* pSControl = NULL;
 	IAudioSessionControl2* pSControl2 = NULL;
 	std::vector<IAudioSessionControl*> sControllers;
-	FillSControllersVectorByDeviceID(dID, sControllers);
+	Fill_SessionCtrlsVector_by_dID(dID, sControllers);
 	LPWSTR found_sID = NULL;
 	ISimpleAudioVolume* pSvol = NULL;
 

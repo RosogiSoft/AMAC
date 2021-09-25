@@ -18,30 +18,54 @@
     <ClCompile Include="src\EnumerateAudioDevices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WinAPI\IMMDevice.cpp">
+    <ClCompile Include="src\WinAPI\Device\DeviceUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WinAPI\IMMUtility.cpp">
+    <ClCompile Include="src\WinAPI\Session\IMMUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WinAPI\SessionsControl.cpp">
+    <ClCompile Include="src\WinAPI\Session\SessionsControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\simple-serial-port\SimpleSerial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\WinAPI\Device\EndpointCallback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WinAPI\Device\DeviceNotificationSender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WinAPI\Device\DeviceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WinAPI\Device\DeviceVolController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\WinAPI\IMMDevice.h">
+    <ClInclude Include="src\WinAPI\Device\DeviceUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WinAPI\IMMUtility.h">
+    <ClInclude Include="src\WinAPI\Session\IMMUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WinAPI\SessionsControl.h">
+    <ClInclude Include="src\WinAPI\Session\SessionsControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\simple-serial-port\SimpleSerial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WinAPI\Device\EndpointCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WinAPI\Device\DeviceNotificationSender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WinAPI\Device\DeviceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WinAPI\Device\DeviceVolController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

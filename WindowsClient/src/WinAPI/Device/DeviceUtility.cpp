@@ -1,5 +1,5 @@
 #pragma once
-#include "IMMDevice.h"
+#include "DeviceUtility.h"
 #include "IMMUtility.h"
 
 #include <Functiondiscoverykeys_devpkey.h>
@@ -12,7 +12,7 @@
 
 const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
 const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
-const IID IID_IAudioEndpointVolume = __uuidof(IAudioEndpointVolume);
+//const IID IID_IAudioEndpointVolume = __uuidof(IAudioEndpointVolume);
 
 void GetMMDevicesCollection(IMMDeviceCollection*& pDeviceCollection) {
 	HRESULT hresult = S_OK;
@@ -31,7 +31,7 @@ Exit:
 	SAFE_RELEASE(pDeviceEnumerator)
 }
 
-IMMDeviceIDAndFriendlyName GetDeviceIDandFriendlyName(IMMDevice* pDevice) {
+DeviceIDAndName GetDeviceIDandName(IMMDevice* pDevice) {
 	HRESULT hresult = S_OK;
 	IPropertyStore* pDeviceProps = NULL;
 	LPWSTR lpwdID = NULL;
@@ -82,7 +82,7 @@ IMMDeviceMap CreateMMDevicesMap() {
 
 	for (ULONG i = 0; i < count; i++) {
 		hresult = pDeviceCollection->Item(i, &pDevice); EXIT_ON_ERROR(hresult)
-		devices.insert(GetDeviceIDandFriendlyName(pDevice));
+		devices.insert(GetDeviceIDandName(pDevice));
 	}
 
 	SAFE_RELEASE(pDevice)

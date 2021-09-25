@@ -1,7 +1,10 @@
-#include "WinAPI/IMMDevice.h"
-#include "WinAPI/IMMUtility.h"
-#include "WinAPI/SessionsControl.h"
-#include "simple-serial-port/SimpleSerial.h"
+#include "DeviceUtility.h"
+#include "IMMUtility.h"
+#include "SessionsControl.h"
+#include "SimpleSerial.h"
+
+#include "DeviceManager.h"
+#include "DeviceVolController.h"
 
 #include <iostream>
 #include <chrono>
@@ -35,31 +38,43 @@ int main()
 	int i;
 	cout << "Select device to change volume of: ";
 	cin >> i;
-	string dID = devices.at(devices_fnames[i]);
+	string dname = devices_fnames[i];
+	string dID = devices.at(dname);
+	
+	DeviceIDAndName device = make_pair(dID, dname);
 
 	char com_port[] = "\\\\.\\COM3";
 	DWORD COM_BAUD_RATE = CBR_9600;
 	SimpleSerial serial = SimpleSerial(com_port, COM_BAUD_RATE);
-	int counter = 100;
 	if (serial.connected_) {
 		cout << "Serial is connected!" << endl;
 	}
 	else {
 		cout << "Serial connection Error!" << endl;
 	}
+
+	DeviceNotificationSender dev_send_upd = DeviceNotificationSender(devices_fnames[i], &serial);
+	DeviceManager dev_mngr = DeviceManager(device, &dev_send_upd);
+	DeviceVolController *dev_vol_ctrl = dev_mngr.Get_DeviceVolController();
+
+	int counter = 100;
 	string incoming;
 	while (serial.connected_) {
-		int refresh_time = 100;
-		incoming = serial.ReadSerialPort(refresh_time, "json");
-		if (incoming == "CW") {
+		//int refresh_time = 1000;
+		//incoming = serial.ReadSerialPort(refresh_time, "json");
+		/*if (incoming == "CW") {
 			if (counter < 100) counter += 5;
+			cout << "Recieved: " << incoming << "; counter = " << counter << endl;
 		}
 		else if (incoming == "CCW") {
 			if (counter > 0) counter -= 5;
+			cout << "Recieved: " << incoming << "; counter = " << counter << endl;
 		}
-		cout << "Recieved: " << incoming << "; counter = " << counter << endl;
-		SetDeviceVolScaled(dID, ((float) counter) /100);
-		//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		else { 
+			cout << "Strange command: "<< incoming << ";" << endl;
+		}*/
+		//float vol = float(counter) / 100;
+		//dev_vol_ctrl->SetVol(vol);
 	}
 
 	/*
