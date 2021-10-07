@@ -38,14 +38,15 @@ int main()
 	int i;
 	cout << "Select device to change volume of: ";
 	cin >> i;
-	string dname = devices_fnames[i];
-	string dID = devices.at(dname);
+	string dname = "Steinberg";
+	string dID = devices.at(devices_fnames[i]);
 	
 	DeviceIDAndName device = make_pair(dID, dname);
 
-	char com_port[] = "\\\\.\\COM3";
-	DWORD COM_BAUD_RATE = CBR_9600;
-	SimpleSerial serial = SimpleSerial(com_port, COM_BAUD_RATE);
+	char com_port[] = "\\\\.\\COM4";
+	DWORD COM_BAUD_RATE = 500000;
+	int timeout = 50;
+	SimpleSerial serial = SimpleSerial(com_port, COM_BAUD_RATE, timeout);
 	if (serial.connected_) {
 		cout << "Serial is connected!" << endl;
 	}
@@ -53,28 +54,33 @@ int main()
 		cout << "Serial connection Error!" << endl;
 	}
 
-	DeviceNotificationSender dev_send_upd = DeviceNotificationSender(devices_fnames[i], &serial);
+	DeviceNotificationSender dev_send_upd = DeviceNotificationSender("Steinberg", &serial);
 	DeviceManager dev_mngr = DeviceManager(device, &dev_send_upd);
 	DeviceVolController *dev_vol_ctrl = dev_mngr.Get_DeviceVolController();
 
-	int counter = 100;
+	int counter = 50;
+	int last_counter = 50;
 	string incoming;
+	int refresh_time = 500;
 	while (serial.connected_) {
-		//int refresh_time = 1000;
-		//incoming = serial.ReadSerialPort(refresh_time, "json");
-		/*if (incoming == "CW") {
+		incoming = serial.ReadSerialPort("json");
+		if (incoming == "1") {
 			if (counter < 100) counter += 5;
 			cout << "Recieved: " << incoming << "; counter = " << counter << endl;
-		}
-		else if (incoming == "CCW") {
+		} else if (incoming == "0") {
 			if (counter > 0) counter -= 5;
 			cout << "Recieved: " << incoming << "; counter = " << counter << endl;
+		} else if (incoming != ""){
+			cout << "Debug: " << incoming << ";" << endl;
 		}
-		else { 
-			cout << "Strange command: "<< incoming << ";" << endl;
-		}*/
-		//float vol = float(counter) / 100;
-		//dev_vol_ctrl->SetVol(vol);
+
+		//if (incoming != "") cout << incoming << endl;
+
+		if (counter != last_counter) {
+			float vol = float(counter) / 100;
+			dev_vol_ctrl->SetVol(vol);
+			last_counter = counter;
+		}
 	}
 
 	/*

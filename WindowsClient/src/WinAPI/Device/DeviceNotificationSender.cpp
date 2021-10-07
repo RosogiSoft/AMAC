@@ -26,20 +26,19 @@ void DeviceNotificationSender::MuteChanged(bool mute) {
 }
 
 void DeviceNotificationSender::SendSerial_VolChange(float vol) {
-	if (serial->connected_) {
-		string send_str = "{" + DeviceID + ":vol=" + std::to_string(vol) + "}";
-		cout << "WriteToSerial: " << send_str << endl;
-		char* to_send = &send_str[0];
-		serial->WriteSerialPort(to_send);
+	int i_vol = vol * 100;
+	string send_str = "{" + DeviceID + ":vol=" + std::to_string(i_vol) + "}";
+	cout << "WriteToSerial: " << send_str << endl;
+
+	char* to_send = &send_str[0];
+	serial->WriteSerialPort(to_send);
 		
-	}
 }
 
 void DeviceNotificationSender::SendSerial_MuteChange(bool mute) {
-	if (serial->connected_) {
-		string send_str = "{" + DeviceID + ":mute=" + std::to_string(mute) + "}";
-		cout << "WriteToSerial: " << send_str << endl;
-		char* to_send = &send_str[0];
-		serial->WriteSerialPort(to_send);
-	}
+	string send_str = "{" + DeviceID + ":mute=" + std::to_string(mute) + "}";
+	cout << "WriteToSerial: " << send_str << endl;
+
+	char* to_send = &send_str[0];
+	serial->WriteSerialPort(to_send);
 }
